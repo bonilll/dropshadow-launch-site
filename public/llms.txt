@@ -1,0 +1,29 @@
+# DropShadow
+
+DropShadow is an iOS survival maze game for iPhone and iPad. The player guides a living drop through deadly maze rooms while the Shadow punishes hesitation. The game focuses on short runs, mass management, special abilities, obstacle timing, compass-assisted navigation, and Daily Runs.
+
+## Official URLs
+
+- Website: https://dropshadow.it/
+- Launch list: https://dropshadow.it/#signup
+- Support: https://dropshadow.it/support
+- Privacy: https://dropshadow.it/privacy
+
+## Key Concepts
+
+- Every second has weight.
+- Movement spends mass; risky play can recover it.
+- The Shadow follows hesitation and adds pressure to every room.
+- Special abilities include Dash, Shield, Phase, Wall Erase, and Mass Generator.
+- Obstacles include Rotating Gate, Gate, Pistons, Press Wall, Pulse Hazard, Teleport, and Crumbling Tile.
+- Daily Runs give every player the same room and the same rules.
+
+## Media
+
+- Trailer: https://dropshadow.it/assets/videos/campaign/dropshadow-trailer-01.mp4
+- Video thumbnails: https://dropshadow.it/assets/posters/videos/
+- Social preview: https://dropshadow.it/assets/social/dropshadow-og.jpg
+
+## Contact
+
+- Email: hello@dropshadow.it
