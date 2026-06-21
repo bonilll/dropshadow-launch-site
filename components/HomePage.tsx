@@ -428,10 +428,10 @@ export function HomePage() {
   useEffect(() => {
     const scope = pageRef.current;
     if (!scope) return;
+    if (!window.matchMedia("(pointer: fine)").matches || navigator.maxTouchPoints > 0) return;
 
     const rails = Array.from(scope.querySelectorAll<HTMLElement>(".media-rail, .feature-grid, .daily-layout"));
     const cleanups = rails.map((rail) => {
-      let activePointer: number | null = null;
       let mouseActive = false;
       let startX = 0;
       let startScrollLeft = 0;
@@ -448,62 +448,19 @@ export function HomePage() {
         return deltaX;
       }
 
-      function removePointerListeners() {
-        window.removeEventListener("pointermove", onPointerMove);
-        window.removeEventListener("pointerup", onPointerUp);
-        window.removeEventListener("pointercancel", onPointerUp);
-      }
-
       function removeMouseListeners() {
         window.removeEventListener("mousemove", onMouseMove);
         window.removeEventListener("mouseup", onMouseUp);
       }
 
       function stopDrag() {
-        activePointer = null;
         mouseActive = false;
         rail.classList.remove("is-dragging");
-        removePointerListeners();
         removeMouseListeners();
       }
 
-      function onPointerDown(event: PointerEvent) {
-        if (event.pointerType === "touch") return;
-        if (event.button !== 0) return;
-        activePointer = event.pointerId;
-        beginDrag(event.clientX);
-        window.addEventListener("pointermove", onPointerMove, { passive: false });
-        window.addEventListener("pointerup", onPointerUp);
-        window.addEventListener("pointercancel", onPointerUp);
-        if (rail.setPointerCapture) {
-          try {
-            rail.setPointerCapture(event.pointerId);
-          } catch {
-            // Pointer capture can fail for synthetic or interrupted gestures.
-          }
-        }
-      }
-
-      function onPointerMove(event: PointerEvent) {
-        if (activePointer !== event.pointerId) return;
-        const deltaX = updateDrag(event.clientX);
-        if (Math.abs(deltaX) > 4) event.preventDefault();
-      }
-
-      function onPointerUp(event: PointerEvent) {
-        if (activePointer !== event.pointerId) return;
-        if (rail.hasPointerCapture?.(event.pointerId)) {
-          try {
-            rail.releasePointerCapture(event.pointerId);
-          } catch {
-            // The gesture may already have been released by the browser.
-          }
-        }
-        stopDrag();
-      }
-
       function onMouseDown(event: MouseEvent) {
-        if (event.button !== 0 || activePointer !== null) return;
+        if (event.button !== 0) return;
         mouseActive = true;
         beginDrag(event.clientX);
         window.addEventListener("mousemove", onMouseMove, { passive: false });
@@ -521,19 +478,10 @@ export function HomePage() {
         stopDrag();
       }
 
-      rail.addEventListener("pointerdown", onPointerDown);
       rail.addEventListener("mousedown", onMouseDown);
-      rail.addEventListener("pointerup", onPointerUp);
-      rail.addEventListener("pointercancel", onPointerUp);
-      rail.addEventListener("lostpointercapture", stopDrag);
 
       return () => {
-        rail.removeEventListener("pointerdown", onPointerDown);
         rail.removeEventListener("mousedown", onMouseDown);
-        rail.removeEventListener("pointerup", onPointerUp);
-        rail.removeEventListener("pointercancel", onPointerUp);
-        rail.removeEventListener("lostpointercapture", stopDrag);
-        removePointerListeners();
         removeMouseListeners();
       };
     });
@@ -770,7 +718,7 @@ export function HomePage() {
                 <p className="eyebrow reveal">Rooms</p>
                 <h2 className="headline split-text" id="rooms-title">Every room teaches one rule. Then asks if you learned it fast enough.</h2>
                 <p className="body-copy reveal">Rotating gates. Collapsing floors. Closing walls. Currents that push you off line. Nothing is random. Everything wants timing.</p>
-                <div className="media-rail reveal" aria-label="Room obstacle clips">
+                <div className="media-rail" aria-label="Room obstacle clips">
                   {obstacleClips.map((clip) => (
                     <article className="rail-card" key={clip.src}>
                       <div className="rail-media">
@@ -780,7 +728,7 @@ export function HomePage() {
                     </article>
                   ))}
                 </div>
-                <p className="rail-hint">Drag to explore the room library</p>
+                <p className="rail-hint">Swipe to explore the room library</p>
               </div>
             </div>
           </section>
@@ -811,7 +759,7 @@ export function HomePage() {
                 <p className="eyebrow reveal">DropLab</p>
                 <h2 className="headline split-text" id="droplab-title">Build the instinct that saves you.</h2>
                 <p className="body-copy reveal">Unlock special abilities between runs, then choose the tool that fits the room: dash through danger, shield a hit, phase past a trap, erase a wall, or generate the mass you need for one more second.</p>
-                <div className="media-rail reveal" aria-label="Ability gameplay clips">
+                <div className="media-rail" aria-label="Ability gameplay clips">
                   {abilityClips.map((clip) => (
                     <article className="rail-card" key={clip.src}>
                       <div className="rail-media">
@@ -821,7 +769,7 @@ export function HomePage() {
                     </article>
                   ))}
                 </div>
-                <p className="rail-hint">Five abilities · drag to explore</p>
+                <p className="rail-hint">Five abilities · swipe to explore</p>
               </div>
             </div>
           </section>
@@ -834,7 +782,7 @@ export function HomePage() {
                 <h2 className="headline split-text" id="daily-title">One room. One chance. Everyone gets the same fear.</h2>
                 <p className="body-copy reveal">Daily Runs turn DropShadow into a shared ritual: same challenge, same rules, different instincts.</p>
 
-                <div className="daily-layout reveal">
+                <div className="daily-layout">
                   <article className="daily-card">
                     <div className="daily-media">
                       <LoopVideo src={media.videos.dailyChallenge} label="DropShadow Daily Challenge gameplay" />

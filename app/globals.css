@@ -3497,12 +3497,10 @@ footer nav,
 .page .media-rail,
 .page .feature-grid,
 .page .daily-layout {
-  cursor: grab;
   scroll-snap-type: none;
   overflow-x: auto;
   overflow-y: hidden;
-  touch-action: pan-x pan-y;
-  user-select: none;
+  touch-action: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
 }
@@ -3510,7 +3508,6 @@ footer nav,
 .page .media-rail.is-dragging,
 .page .feature-grid.is-dragging,
 .page .daily-layout.is-dragging {
-  cursor: grabbing;
   scroll-behavior: auto;
   scroll-snap-type: none;
 }
@@ -3521,10 +3518,19 @@ footer nav,
   pointer-events: none;
 }
 
-.page .media-rail > .rail-card,
-.page .feature-grid > .clip-card,
-.page .daily-layout > .daily-card {
-  pointer-events: none;
+@media (pointer: fine) {
+  .page .media-rail,
+  .page .feature-grid,
+  .page .daily-layout {
+    cursor: grab;
+    user-select: none;
+  }
+
+  .page .media-rail.is-dragging,
+  .page .feature-grid.is-dragging,
+  .page .daily-layout.is-dragging {
+    cursor: grabbing;
+  }
 }
 
 .hero-kicker .dot {
