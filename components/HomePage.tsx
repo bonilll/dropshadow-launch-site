@@ -17,11 +17,15 @@ type LoopVideoProps = {
   src: string;
   label: string;
   className?: string;
+  loading?: "eager" | "lazy";
 };
 
-function LoopVideo({ src, label, className }: LoopVideoProps) {
+function LoopVideo({ src, label, className, loading = "lazy" }: LoopVideoProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const inViewRef = useRef(false);
   const poster = posterForVideo(src);
+  const [shouldLoad, setShouldLoad] = useState(loading === "eager");
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -30,12 +34,15 @@ function LoopVideo({ src, label, className }: LoopVideoProps) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
+          inViewRef.current = true;
+          setShouldLoad(true);
           void video.play().catch(() => undefined);
         } else {
+          inViewRef.current = false;
           video.pause();
         }
       },
-      { rootMargin: "120px 0px", threshold: 0.2 }
+      { rootMargin: "360px 0px", threshold: 0.12 }
     );
 
     observer.observe(video);
@@ -46,20 +53,50 @@ function LoopVideo({ src, label, className }: LoopVideoProps) {
     };
   }, []);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !shouldLoad) return;
+    video.load();
+  }, [shouldLoad, src]);
+
+  function playIfVisible() {
+    const video = videoRef.current;
+    if (!video) return;
+    setIsReady(true);
+    if (inViewRef.current && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      void video.play().catch(() => undefined);
+    }
+  }
+
+  const videoClassName = [
+    "loop-video",
+    className,
+    isReady ? "is-ready" : ""
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <video
-      ref={videoRef}
-      className={className ? `loop-video ${className}` : "loop-video"}
-      muted
-      playsInline
-      autoPlay
-      loop
-      preload="none"
-      poster={poster}
-      aria-label={label}
-    >
-      <source src={src} type="video/mp4" />
-    </video>
+    <>
+      <img className="loop-video-poster" src={poster} alt="" aria-hidden="true" loading="eager" decoding="async" />
+      <video
+        ref={videoRef}
+        className={videoClassName}
+        muted
+        playsInline
+        loop
+        preload="none"
+        poster={poster}
+        aria-label={label}
+        data-src={src}
+        onCanPlay={playIfVisible}
+        onLoadedData={playIfVisible}
+        onPlaying={() => setIsReady(true)}
+        onError={() => setIsReady(false)}
+      >
+        {shouldLoad ? <source src={src} type="video/mp4" /> : null}
+      </video>
+    </>
   );
 }
 
@@ -648,7 +685,7 @@ export function HomePage() {
 
             <div className="launch-grid">
               <div className="trailer-panel reveal" id="trailer">
-                <LoopVideo src={media.videos.trailer} label="DropShadow trailer" className="trailer-video" />
+                <LoopVideo src={media.videos.trailer} label="DropShadow trailer" className="trailer-video" loading="eager" />
               </div>
 
               {renderSignupCard("hero")}
