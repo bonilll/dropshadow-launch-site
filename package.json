@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@vercel/analytics": "latest",
+    "@vercel/analytics": "^2.0.1",
     "framer-motion": "latest",
     "gsap": "^3.15.0",
     "lucide-react": "latest",

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+import { SiteAnalytics } from "@/components/SiteAnalytics";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -71,7 +71,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body suppressHydrationWarning>
         {children}
-        <Analytics />
+        <SiteAnalytics />
       </body>
     </html>
   );

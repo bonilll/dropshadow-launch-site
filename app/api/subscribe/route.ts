@@ -35,6 +35,15 @@ async function parseBrevoError(response: Response) {
   }
 }
 
+function buildAttributes(source: string, consentVersion: string, consentText: string, createdAt: string) {
+  return {
+    SOURCE: source,
+    CONSENT_VERSION: consentVersion,
+    CONSENT_TEXT: consentText,
+    CONSENT_AT: createdAt
+  };
+}
+
 export async function POST(request: NextRequest) {
   let payload: SubscribePayload;
 
@@ -75,15 +84,11 @@ export async function POST(request: NextRequest) {
   }
 
   const createdAt = new Date().toISOString();
+  const attributes = buildAttributes(source, consentVersion, consentText, createdAt);
   const brevoBody: Record<string, unknown> = {
     email,
     updateEnabled: false,
-    attributes: {
-      SOURCE: source,
-      CONSENT_VERSION: consentVersion,
-      CONSENT_TEXT: consentText,
-      CONSENT_AT: createdAt
-    }
+    attributes
   };
 
   if (typeof listId === "number" && Number.isFinite(listId)) {
@@ -116,4 +121,3 @@ export async function POST(request: NextRequest) {
     detail: error.message
   });
 }
-

@@ -615,7 +615,10 @@ export function HomePage() {
             checked={consent}
             onChange={(event) => setConsent(event.target.checked)}
           />
-          <span>I agree to receive DropShadow launch updates and major game news by email.</span>
+          <span>
+            I agree to receive DropShadow launch updates and major game news by email, and I confirm that I have read the{" "}
+            <a href="/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.
+          </span>
         </label>
         <button className="cta" type="submit" disabled={submitting}>
           {submitting ? "Sending..." : "Get notified"} <span className="btn-arrow">→</span>

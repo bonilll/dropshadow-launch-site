@@ -28,3 +28,6 @@ BREVO_API_KEY=
 BREVO_LIST_ID=
 NEXT_PUBLIC_SITE_URL=https://dropshadow.it
 ```
+
+Vercel Web Analytics is enabled from the root layout with `@vercel/analytics`.
+Enable Web Analytics in the Vercel project dashboard and redeploy production.

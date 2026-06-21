@@ -1295,6 +1295,21 @@ input[type="email"] {
   accent-color: var(--accent);
 }
 
+.check a,
+.consent-row a {
+  color: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.check a:hover,
+.check a:focus-visible,
+.consent-row a:hover,
+.consent-row a:focus-visible {
+  color: #663CFF;
+}
+
 .form-message,
 .msg {
   min-height: 22px;

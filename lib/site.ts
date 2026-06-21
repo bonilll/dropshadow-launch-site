@@ -6,6 +6,13 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://dropshadow.it",
   contactEmail: "hello@dropshadow.it",
   fallbackEmail: "thedropmaze@gmail.com",
+  privacyVersion: "privacy-2026-06-21",
+  privacyUpdatedAt: "June 21, 2026",
+  legalController: "Alessandro Nobile",
+  legalControllerAddress: "Via delle Sorgenti 24, 23874 Montevecchia (LC), Italy",
+  legalControllerCountry: "Italy",
+  legalPec: "alessandro-nobile@pec.it",
+  legalDpo: "Not appointed",
   socialImage: "/assets/social/dropshadow-og.jpg",
   keywords: [
     "DropShadow",
@@ -20,7 +27,7 @@ export const siteConfig = {
   ],
   consentVersion: "website-launch-2026-06-18",
   consentText:
-    "I agree to receive DropShadow launch updates and major game news by email."
+    "I agree to receive DropShadow launch updates and major game news by email, and I confirm that I have read the Privacy Policy."
 };
 
 export const navItems = [

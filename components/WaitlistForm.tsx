@@ -118,7 +118,10 @@ export function WaitlistForm({ defaultSource, buttonLabel = "Get notified" }: Wa
           checked={consent}
           onChange={(event) => setConsent(event.target.checked)}
         />
-        <span>{siteConfig.consentText}</span>
+        <span>
+          I agree to receive DropShadow launch updates and major game news by email, and I confirm that I have read the{" "}
+          <a href="/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.
+        </span>
       </label>
 
       <p className="form-message" data-kind={message.kind} aria-live="polite">

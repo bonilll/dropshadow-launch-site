@@ -22,7 +22,7 @@ export function NotifyPrototypeForm({ sourceDefault = "notify" }: { sourceDefaul
 
     if (!consent) {
       setKind("error");
-      setMessage("Please confirm email consent before joining.");
+      setMessage("Please agree to receive launch updates before joining.");
       return;
     }
 
@@ -85,7 +85,10 @@ export function NotifyPrototypeForm({ sourceDefault = "notify" }: { sourceDefaul
           checked={consent}
           onChange={(event) => setConsent(event.target.checked)}
         />
-        <span>I agree to receive DropShadow launch updates and major game news by email.</span>
+        <span>
+          I agree to receive DropShadow launch updates and major game news by email, and I confirm that I have read the{" "}
+          <a href="/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.
+        </span>
       </label>
       <button type="submit" disabled={submitting}>{submitting ? "Sending..." : "Get notified"}</button>
       <div className={`msg ${kind === "error" ? "err" : ""} ${kind === "success" ? "ok" : ""}`} role="status" aria-live="polite">
@@ -94,4 +97,3 @@ export function NotifyPrototypeForm({ sourceDefault = "notify" }: { sourceDefaul
     </form>
   );
 }
-
